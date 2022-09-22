@@ -1,0 +1,82 @@
+---
+title: "p1805_hw1_jc5457"
+output: github_document
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+# Problem 1
+## the dataset
+Here's the `penguins` dataset:
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+* The variables in this dataset include:
+`r colnames(penguins)`
+`r class(penguins)`
+
+* The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columes.
+
+* The mean flipper length is `r mean(pull(penguins,flipper_length_mm))`
+
+## the plot
+The scatterplot of `flipper_length_mm (y)` vs `bill_length_mm (x)`
+Color points using the `species` variable
+
+```{r chunk_scatterplot}
+ggplot(penguins, 
+       aes(x=bill_length_mm, 
+           y=flipper_length_mm,
+           color=species)) + geom_point()
+
+ggsave(
+  "scatterplot.png",
+  plot = last_plot()
+)
+```
+
+# Problem 2
+Create a data frame comprised of:
+
+* a random sample of size 10 from a standard Normal distribution
+* a logical vector indicating whether elements of the sample are greater than 0
+* a character vector of length 10
+* a factor vector of length 10, with 3 different factor “levels”
+```{r}
+dataframe = 
+  tibble(
+    random_sample = rnorm(10),
+    logical_vector = random_sample > 0,
+    character_vector = character(length=10),
+    factor_vector = factor(c("lv1","lv2","lv3",
+                             "lv3","lv3","lv3",
+                             "lv3","lv3","lv3","lv3"))
+  )
+```
+
+Pull the mean of each variable:
+```{r}
+mean(pull(dataframe, random_sample))
+mean(pull(dataframe, logical_vector))
+mean(pull(dataframe, character_vector))
+mean(pull(dataframe, factor_vector))
+```
+
+Try to take the mean of each variable in your dataframe:
+
+* The numeric variable `random_sample` and logical vector `logical_vector` work 
+* The character vector `character_vector` and factor vector `factor_vector` don't work
+
+Transfer the variables into numeric variables:
+```{r, message=FALSE}
+mean(pull(dataframe, as.numeric(logical_vector)))
+mean(pull(dataframe, as.numeric(character_vector)))
+mean(pull(dataframe, as.numeric(factor_vector)))
+```
+
+
