@@ -9,22 +9,56 @@ library(ggplot2)
 ```
 
 # Problem 1
-## the dataset
-Here's the `penguins` dataset:
-
+**Loading the penguins dataset**
 ```{r}
 data("penguins", package = "palmerpenguins")
 ```
 
-* The variables in this dataset include:
-`r colnames(penguins)`
-`r class(penguins)`
+**Descriptions of the penguins dataset**
 
-* The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columes.
+The variable names in this dataset are: 
+`r names(penguins)`.
 
-* The mean flipper length is `r mean(pull(penguins,flipper_length_mm))`
+The table below shows the number of each species in the `species` variable
 
-## the plot
+```{r, echo=FALSE}
+summary(pull(penguins,species))
+```
+
+The table below shows the number of each island type in the `island` variable
+
+```{r, echo=FALSE}
+summary(pull(penguins,island))
+```
+
+The table below shows the min, 1st quartile, median, mean, 3rd quartile, max value, and number of NA's of the variable `bill_length_mm`
+
+```{r, echo=FALSE}
+summary(pull(penguins,bill_length_mm))
+```
+
+The table below shows the min, 1st quartile, median, mean, 3rd quartile, max value, and number of NA's of the variable `bill_depth_mm`
+```{r, echo=FALSE}
+summary(pull(penguins,bill_depth_mm))
+```
+
+The table below shows the min, 1st quartile, median, mean, 3rd quartile, max value, and number of NA's of the variable `flipper_length_mm`
+```{r, echo=FALSE}
+summary(pull(penguins,flipper_length_mm))
+```
+
+The table below shows the min, 1st quartile, median, mean, 3rd quartile, max value, and number of NA's of the variable `body_mass_g`
+```{r, echo=FALSE}
+summary(pull(penguins,body_mass_g))
+```
+
+There are `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+
+The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = T)`
+
+
+**The plot**
+
 The scatterplot of `flipper_length_mm (y)` vs `bill_length_mm (x)`
 Color points using the `species` variable
 
@@ -41,7 +75,8 @@ ggsave(
 ```
 
 # Problem 2
-Create a data frame comprised of:
+**Create a data frame**
+This code chunk creates a data frame comprised of:
 
 * a random sample of size 10 from a standard Normal distribution
 * a logical vector indicating whether elements of the sample are greater than 0
@@ -59,7 +94,7 @@ dataframe =
   )
 ```
 
-Pull the mean of each variable:
+**Pull the mean of each variable**
 ```{r}
 mean(pull(dataframe, random_sample))
 mean(pull(dataframe, logical_vector))
@@ -72,11 +107,16 @@ Try to take the mean of each variable in your dataframe:
 * The numeric variable `random_sample` and logical vector `logical_vector` work 
 * The character vector `character_vector` and factor vector `factor_vector` don't work
 
-Transfer the variables into numeric variables:
-```{r, message=FALSE}
-mean(pull(dataframe, as.numeric(logical_vector)))
-mean(pull(dataframe, as.numeric(character_vector)))
-mean(pull(dataframe, as.numeric(factor_vector)))
+**Transfer the variables into numeric variables**
+```{r, results = 'hide', warning = FALSE}
+as.numeric(pull(dataframe, logical_vector))
+as.numeric(pull(dataframe, character_vector))
+as.numeric(pull(dataframe, factor_vector))
 ```
+
+Logical and factor vectors are successfully converted to numeric vectors.
+Character vector can not be converted to numeric vector.
+
+The failure of taking mean in the above section is because only numeric and logical vectors can take means. For logical vector, 1 represents TRUE and 0 represents FALSE.
 
 
